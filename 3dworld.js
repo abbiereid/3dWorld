@@ -1,32 +1,28 @@
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+window.addEventListener('load', main);
 
-function main () {
-        const canvas = document.querySelector('#c')
+function main() {
+    const scene = new THREE.Scene();
 
-        const fov = 50
-        const aspect = 1
-        const near = canvas.clientWidth / canvas.clientHeight
-        const far = 2000
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
 
-        const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-        const renderer = new THREE.WebGLRenderer({canvas})
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
 
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight)
+    function animate() {
+        requestAnimationFrame(animate);
 
-        const scene = new THREE.Scene()
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
 
-        const TextureLoader = new THREE.TextureLoader().load('https://threejsfundamentals.org/threejs/resources/images/wall.jpg',
-        () => {
-            scene.background = texture
-        })
-
-    function render() {
-        renderer.render(scene,camera)
-        requestAnimationFrame(render)
+        renderer.render(scene, camera);
     }
-    requestAnimationFrame(render)
-
+    
+    animate();
 }
-
-main();
