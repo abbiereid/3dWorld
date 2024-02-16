@@ -15,14 +15,35 @@ function main() {
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+
+    function onMouseMove(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+
+    document.addEventListener('mousemove', onMouseMove, false);
+
     function animate() {
         requestAnimationFrame(animate);
 
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+
+        raycaster.setFromCamera(mouse, camera);
+
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        for (let i = 0; i < intersects.length; i++) {
+            intersects[i].object.rotation.x += 0.01;
+            intersects[i].object.rotation.y += 0.01;
+        }
 
         renderer.render(scene, camera);
     }
-    
+
     animate();
-}
+        
+    }
