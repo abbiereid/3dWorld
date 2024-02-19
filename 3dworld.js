@@ -15,7 +15,6 @@ function main() {
     const cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
-
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
